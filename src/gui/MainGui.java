@@ -265,6 +265,7 @@ public class MainGui {
 			int res = jFileChooser.showOpenDialog(mainFrame);
 			if (res == jFileChooser.APPROVE_OPTION) {
 				File a = jFileChooser.getSelectedFile();
+				//这个文件应该是存贮多条指令的文件，这里获得了该文件，需要后台填写进行处理
 				System.out.println(a.getAbsolutePath());
 			}
 		}
@@ -298,28 +299,28 @@ public class MainGui {
 	}
 	
 	public void getMemoryDialog(int address, float value){
-		// 需要后滩填写 替代下方的输出测试代码  根据这里获得的address和value修改memory,数值未经过检查
+		// 需要后台填写 替代下方的输出测试代码  根据这里获得的address和value修改memory,数值未经过检查
 		System.out.println("Memory");
 		System.out.println(String.valueOf(address));
 		System.out.println(String.valueOf(value));
 	}
 	
 	public void getFloatDialog(int num, float value){
-		// 需要后滩填写  同上
+		// 需要后台填写  同上
 		System.out.println("Dialog");
 		System.out.println(String.valueOf(num));
 		System.out.println(String.valueOf(value));
 	}
 	
 	public void getIntegerDialog(int num, int value){
-		// 需要后滩填写  同上
+		// 需要后台填写  同上
 		System.out.println("Integer");
 		System.out.println(String.valueOf(num));
 		System.out.println(String.valueOf(value));
 	}
 	
 	public void getInstructionDialog(String ins) {
-		// 需要后滩填写  同上
+		// 需要后台填写  同上
 		System.out.println("Instruction");
 		System.out.println(ins);;
 	}
