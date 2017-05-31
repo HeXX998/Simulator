@@ -34,4 +34,10 @@ public class DataMemory extends Component {
 	public int getSize() {
 		return size;
 	}
+
+	@Override
+	public void onClockTick() {
+		data[0] += 0.1;
+		// TODO Auto-generated method stub
+	}
 }

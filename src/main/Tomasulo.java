@@ -18,7 +18,7 @@ public class Tomasulo {
 	//Example，运行MainGui类观察示例
 	public static void main(String[] args) {
 		Circuit circuit = buildCircuit();
-		MainGui mainGui = new MainGui(new Tomasulo());
+		MainGui mainGui = new MainGui(circuit);
 		mainGui.modifyFloatRegister(5, "Expr5", 100.70f );
 		mainGui.modifyIntegerRegister(7, 7);
 		for(int i = 0; i <= 10; i++) {

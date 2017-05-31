@@ -20,6 +20,7 @@ import javax.swing.JToolBar;
 import javax.swing.JFileChooser;
 
 import dialog.MemoryDialog;
+import logic.Circuit;
 import dialog.FloatDialog;
 import dialog.IntegerDialog;
 import dialog.InstructionDialog;
@@ -41,11 +42,10 @@ public class MainGui {
 	private ParameterPanel parameterPanel;
 	private ReservationStationPanel reservationStationPanel;
 	private RuntimePanel runtimePanel;
+	protected Circuit circuit;
 	
-	private Tomasulo tomasulo;
-	
-	public MainGui (Tomasulo tomasulo){
-		this.tomasulo = tomasulo;
+	public MainGui (Circuit circuit){
+		this.circuit = circuit;
 		mainFrame = new JFrame("Tomasulo Simulator");
 		mainFrame.setSize(1150, 775);
 		mainFrame.setResizable(false);
@@ -273,8 +273,8 @@ public class MainGui {
 	
 	private class nextListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			//需要后台填写 单步执行代码
-			System.out.println("Next");
+			circuit.tick();
+			MainGui.this.memoryPanel.updateFromLogic();
 		}
 	}
 	

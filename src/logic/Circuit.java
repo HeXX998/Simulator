@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Circuit {
 	HashMap<String, Component> components;
@@ -17,6 +18,13 @@ public class Circuit {
 	public Component getComponent(String name)
 	{
 		return components.get(name);
+	}
+	
+	public void tick()
+	{
+		for (Component components : components.values()) {
+			components.onClockTick();
+		}
 	}
 	
 	public void addPin()

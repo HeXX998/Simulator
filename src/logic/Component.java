@@ -1,5 +1,5 @@
 package logic;
 
-public class Component {
-
+public abstract class Component {
+	abstract public void onClockTick();
 }

@@ -36,17 +36,30 @@ public class MemoryPanel extends JPanel{
         add(scroller);
 	}
 	
+	public void updateFromLogic() {
+		int memorySize = dataMemory.getSize();
+		if(memorySize != tableModel.getRowCount()) {
+			tableModel.setRowCount(memorySize);
+			for(int i = 0; i < memorySize; i++)
+			{
+				tableModel.setValueAt(i, i, 0);
+				label.setText("Memory (" + memorySize + " words)");
+			}
+		}
+		for(int i = 0; i < memorySize; i++)
+		{
+			tableModel.setValueAt(dataMemory.getData(i), i, 1);
+		}
+	}
+	
+	public void writeToLogic() {
+		
+	}
+	
 	public void bindDataMemory(DataMemory dataMemory)
 	{
 		this.dataMemory = dataMemory;
-		int memorySize = dataMemory.getSize();
-		tableModel.setRowCount(memorySize);
-		for(int i = 0; i < memorySize; i++)
-		{
-			tableModel.setValueAt(i, i, 0);
-			tableModel.setValueAt(dataMemory.getData(i), i, 1);
-		}
-		label.setText("Memory (" + memorySize + " words)");
+		updateFromLogic();
 	}
 	
 	void modifyMemory(int address, float value) {
