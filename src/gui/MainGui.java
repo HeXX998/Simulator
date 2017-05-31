@@ -37,7 +37,7 @@ public class MainGui {
 	private IntegerPanel integerPanel;
 	private LSQueuePanel loadQueuePanel;
 	private LSQueuePanel storeQueuePanel;
-	private MemoryPanel memoryPanel;
+	public MemoryPanel memoryPanel;
 	private ParameterPanel parameterPanel;
 	private ReservationStationPanel reservationStationPanel;
 	private RuntimePanel runtimePanel;
@@ -281,20 +281,20 @@ public class MainGui {
 	private class runListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// 需要后台填写 多步执行代码
-			System.out.println("Run");
+			//System.out.println("Run");
 		}
 	}
 	
 	private class stopListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// 需要后台填写 停止执行代码
-			System.out.println("Stop");
+			//System.out.println("Stop");
 		}
 	}
 	
 	private class resetListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			tomasulo.reset();
+			//tomasulo.reset();
 		}
 	}
 	
@@ -327,29 +327,5 @@ public class MainGui {
 	
 	public JFrame getMainFrame() {
 		return mainFrame;
-	}
-	
-	//Example，运行MainGui类观察示例
-	public static void main(String[] args) {
-		MainGui mainGui = new MainGui(new Tomasulo());
-		mainGui.modifyFloatRegister(5, "Expr5", 100.70f );
-		mainGui.modifyIntegerRegister(7, 7);
-		for(int i = 0; i <= 10; i++) {
-			mainGui.addInstruction("LD", "F" + String.valueOf(i), "34", "D2");
-		}
-		mainGui.addLoadQueuePanel(1, true, 1234, 100.70f );
-		mainGui.addStoreQueuePanel(2, true, 1234, 100.90f );
-		for(int i = 0; i <= 10; i++) {
-			mainGui.modifyMemory(4 * i, 0.4f * i);
-		}
-		mainGui.modifyMemory(28, (float) 999.99);
-		mainGui.setParameter(100, 200, 300);
-		mainGui.addReservation(4, 1, true, "ADDU", 1.5f, 2.5f, 3, 4);
-		mainGui.addReservation(3, 1, true, "LD", 4.5f, 5.5f, 1, 2);
-		mainGui.removeReservation(3);
-		for(int i = 0; i <= 10; i++) {
-			mainGui.addRuntime("ADDU" + String.valueOf(i));
-		}
-		mainGui.modifyRuntime(5, "LD", true, "HAHA");
 	}
 }

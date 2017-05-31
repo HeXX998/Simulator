@@ -11,10 +11,13 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import logic.components.DataMemory;
+
 public class MemoryPanel extends JPanel{
 	private JLabel label;
 	private JTable table;
 	private DefaultTableModel tableModel;
+	protected DataMemory dataMemory;
 	private JScrollPane scroller;
 	
 	MemoryPanel(){
@@ -31,6 +34,19 @@ public class MemoryPanel extends JPanel{
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(label);
         add(scroller);
+	}
+	
+	public void bindDataMemory(DataMemory dataMemory)
+	{
+		this.dataMemory = dataMemory;
+		int memorySize = dataMemory.getSize();
+		tableModel.setRowCount(memorySize);
+		for(int i = 0; i < memorySize; i++)
+		{
+			tableModel.setValueAt(i, i, 0);
+			tableModel.setValueAt(dataMemory.getData(i), i, 1);
+		}
+		label.setText("Memory (" + memorySize + " words)");
 	}
 	
 	void modifyMemory(int address, float value) {
