@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.Timer;
 import javax.swing.JFileChooser;
 
 import dialog.MemoryDialog;
@@ -43,13 +44,20 @@ public class MainGui {
 	private ReservationStationPanel reservationStationPanel;
 	private RuntimePanel runtimePanel;
 	protected Circuit circuit;
-	
+	protected Timer timer;
+
 	public MainGui (Circuit circuit){
 		this.circuit = circuit;
 		mainFrame = new JFrame("Tomasulo Simulator");
 		mainFrame.setSize(1150, 775);
 		mainFrame.setResizable(false);
 		mainFrame.setLayout(new BorderLayout(20, 10));
+		mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        System.exit(0);
+		    }
+		});
 		
 		mainMenuBar = new JMenuBar();
 		mainFrame.setJMenuBar(mainMenuBar);
@@ -280,15 +288,15 @@ public class MainGui {
 	
 	private class runListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// 需要后台填写 多步执行代码
-			//System.out.println("Run");
+			timer = new Timer(500, new nextListener());
+			timer.start();
 		}
 	}
 	
 	private class stopListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// 需要后台填写 停止执行代码
-			//System.out.println("Stop");
+			timer.stop();
+			timer = null;
 		}
 	}
 	
