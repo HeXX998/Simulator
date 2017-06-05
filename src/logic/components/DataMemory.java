@@ -40,4 +40,10 @@ public class DataMemory extends Component {
 		data[0] += 0.1;
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void onBroadcast(int register, float data) {
+		// TODO Auto-generated method stub
+		
+	}
 }

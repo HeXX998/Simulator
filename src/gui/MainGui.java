@@ -21,7 +21,7 @@ import javax.swing.Timer;
 import javax.swing.JFileChooser;
 
 import dialog.MemoryDialog;
-import logic.Circuit;
+import logic.TomasuloCircuit;
 import dialog.FloatDialog;
 import dialog.IntegerDialog;
 import dialog.InstructionDialog;
@@ -43,10 +43,10 @@ public class MainGui {
 	private ParameterPanel parameterPanel;
 	private ReservationStationPanel reservationStationPanel;
 	private RuntimePanel runtimePanel;
-	protected Circuit circuit;
+	protected TomasuloCircuit circuit;
 	protected Timer timer;
 
-	public MainGui (Circuit circuit){
+	public MainGui (TomasuloCircuit circuit){
 		this.circuit = circuit;
 		mainFrame = new JFrame("Tomasulo Simulator");
 		mainFrame.setSize(1150, 775);

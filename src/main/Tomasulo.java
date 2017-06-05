@@ -1,15 +1,15 @@
 package main;
 
 import gui.MainGui;
-import logic.Circuit;
+import logic.TomasuloCircuit;
 import logic.components.DataMemory;
 
 public class Tomasulo {
 	private MainGui mainGui;
 	
-	public static Circuit buildCircuit()
+	public static TomasuloCircuit buildCircuit()
 	{
-		Circuit circuit = new Circuit();
+		TomasuloCircuit circuit = new TomasuloCircuit();
 		DataMemory dataMemory = new DataMemory(256);
 		circuit.addComponent("data_memory", dataMemory);
 		return circuit;
@@ -17,7 +17,7 @@ public class Tomasulo {
 	
 	//Example，运行MainGui类观察示例
 	public static void main(String[] args) {
-		Circuit circuit = buildCircuit();
+		TomasuloCircuit circuit = buildCircuit();
 		MainGui mainGui = new MainGui(circuit);
 		mainGui.modifyFloatRegister(5, "Expr5", 100.70f );
 		mainGui.modifyIntegerRegister(7, 7);

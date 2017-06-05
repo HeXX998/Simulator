@@ -10,4 +10,10 @@ public class AddFPU extends Component {
 		
 	}
 
+	@Override
+	public void onBroadcast(int register, float data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
