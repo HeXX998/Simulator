@@ -8,4 +8,13 @@ public abstract class ReservationStation extends Component {
 	public abstract class EntryData {
 		
 	}
+	
+	protected int size;
+	public ReservationStation(int size) {
+		this.size = size;
+	}
+	
+	public int getSize() {
+		return size;
+	}
 }

@@ -4,7 +4,7 @@ import logic.RenamedValue;
 import logic.ReservationStation;
 
 public class FPAddReservationStation extends ReservationStation {
-	public class EntryData {
+	public class EntryData extends ReservationStation.Entry {
 		Operation operation;
 		RenamedValue value1;
 		RenamedValue value2;
@@ -12,6 +12,7 @@ public class FPAddReservationStation extends ReservationStation {
 	protected EntryData[] entries;
 	public FPAddReservationStation(int size)
 	{
+		super(size);
 		entries = new EntryData[size];
 	}
 	
