@@ -5,4 +5,6 @@ public enum Operation {
 	SUBSTRACT,
 	MULTIPLICATION,
 	DIVISION,
+	LOAD,
+	STORE,
 }

@@ -20,16 +20,6 @@ public class DataMemory extends Component {
 	{
 		return data[address];
 	}
-	
-	public String[] inputPins()
-	{
-		return new String[] {"data", "address", "is_write"};
-	}
-	
-	public String[] outputPins()
-	{
-		return new String[] {"value"};
-	}
 
 	public int getSize() {
 		return size;

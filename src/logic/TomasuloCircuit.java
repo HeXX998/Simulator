@@ -3,8 +3,10 @@ package logic;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import logic.components.DataMemory;
 import logic.components.FPAddReservationStation;
 import logic.components.FPMulReservationStation;
+import logic.components.InstructionMemory;
 import logic.components.LoadBuffer;
 import logic.components.StoreBuffer;
 
@@ -21,6 +23,8 @@ public class TomasuloCircuit {
 	StoreBuffer storeBuffer;
 	FPAddReservationStation addReservationStation;
 	FPMulReservationStation mulReservationStation;
+	DataMemory dataMemory;
+	InstructionMemory instructionMemory;
 
 	public TomasuloCircuit()
 	{
@@ -28,6 +32,8 @@ public class TomasuloCircuit {
 		storeBuffer = new StoreBuffer(3);
 		addReservationStation = new FPAddReservationStation(3);
 		mulReservationStation = new FPMulReservationStation(2);
+		dataMemory = new DataMemory(256);
+		instructionMemory = new InstructionMemory(64);
 		components = new HashMap<String, Component>();
 		pins = new HashMap<String, Pin>();
 	}
