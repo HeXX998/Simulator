@@ -76,7 +76,6 @@ public class InstructionQueuePanel extends JPanel{
 				tableModel.setValueAt("" + lsInst.offset, i, 3);
 				tableModel.setValueAt("R" + lsInst.baseRegister, i, 4);
 			}
-			//tableModel.setValueAt(instructionMemory.getData(i), i, 1);
 		}
 	}
 	

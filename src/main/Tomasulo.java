@@ -30,9 +30,9 @@ public class Tomasulo {
 		for(int i = 0; i <= 10; i++) {
 			mainGui.addRuntime("ADDU" + String.valueOf(i));
 		}
-		mainGui.modifyRuntime(5, "LD", true, "HAHA");
 		mainGui.memoryPanel.bindDataMemory((DataMemory)circuit.getComponent("data_memory"));
 		mainGui.instructionQueuePanel.bindInstructionMemory(circuit.instructionMemory);
+		mainGui.loadQueuePanel.bindLoadBuffer(circuit.loadBuffer);
 	}
 
 }

@@ -4,10 +4,18 @@ import logic.Component;
 
 public class InstructionMemory extends Component {
 	
+	public enum ExecStatus {
+		WAITING,
+		RUNNING,
+		DONE,
+	}
+	
 	public abstract class Instruction {
 		public Operation operation;
+		public ExecStatus execStatus;
 		Instruction(Operation op) {
 			this.operation = op;
+			this.execStatus = ExecStatus.WAITING;
 		}
 	}
 	
@@ -28,8 +36,7 @@ public class InstructionMemory extends Component {
 		public int dataRegister;
 		public int baseRegister;
 		public int offset;
-		public LoadStoreInstruction(Operation op, int dataRegister, int baseRegister, int offset)
-		{
+		public LoadStoreInstruction(Operation op, int dataRegister, int baseRegister, int offset) {
 			super(op);
 			this.dataRegister = dataRegister;
 			this.baseRegister = baseRegister;
@@ -39,6 +46,21 @@ public class InstructionMemory extends Component {
 	
 	protected int size;
 	protected Instruction[] instructions;
+	
+	public Instruction getNextInstruction() {
+		for(int i = 0; i < size; i++) {
+			if(instructions[i] != null &&
+			   instructions[i].execStatus == ExecStatus.WAITING)
+			{
+				return instructions[i];
+			}
+		}
+		return null;
+	}
+	
+	public void reportInstructionRunning(Instruction instruction) {
+		instruction.execStatus = ExecStatus.RUNNING;
+	}
 	
 	public InstructionMemory(int size)
 	{

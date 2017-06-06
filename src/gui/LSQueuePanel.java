@@ -11,12 +11,20 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-class LSQueuePanel extends JPanel{
+import logic.components.DataMemory;
+import logic.components.LoadBuffer;
+import logic.components.Operation;
+import logic.components.InstructionMemory.FPUInstruction;
+import logic.components.InstructionMemory.Instruction;
+import logic.components.InstructionMemory.LoadStoreInstruction;
+
+public class LSQueuePanel extends JPanel{
 	private JLabel label;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private JScrollPane scroller;
 	public boolean load;
+	LoadBuffer loadBuffer;
 	
 	LSQueuePanel(boolean load) {
 		String a = null;
@@ -32,12 +40,7 @@ class LSQueuePanel extends JPanel{
 		label.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
 		
 		String[] colName = {"", "Busy", "Address", "Cache"};
-		String[][] rowData = {
-				{a + "1", "No", "", ""},
-				{a + "2", "No", "", ""},
-				{a + "3", "No", "", ""}
-		};
-		tableModel = new DefaultTableModel(rowData, colName);
+		tableModel = new DefaultTableModel(null, colName);
 		table = new JTable(tableModel);
 		table.setRowHeight(25);
 		scroller = new JScrollPane(table);
@@ -48,8 +51,52 @@ class LSQueuePanel extends JPanel{
         add(scroller);
 	}
 	
+	public void bindLoadBuffer(LoadBuffer loadBuffer)
+	{
+		this.loadBuffer = loadBuffer;
+		updateFromLogic();
+	}
+	
+	void updateFromLogic() {
+		int loadQueueSize = loadBuffer.getSize();
+		if(loadQueueSize != tableModel.getRowCount()) {
+			tableModel.setRowCount(loadQueueSize);
+			for(int i = 0; i < loadQueueSize; i++)
+			{
+				tableModel.setValueAt("LOAD" + (i + 1), i, 0);
+				label.setText("Load Queue (" + loadQueueSize + " LD instructions)");
+			}
+		}
+		for(int i = 0; i < loadQueueSize; i++)
+		{
+			LoadBuffer.EntryData entry = loadBuffer.entries[i];
+			if(entry == null)
+			{
+				tableModel.setValueAt("No", i, 1);
+				for(int j = 2; j <= 3; j++) {
+					tableModel.setValueAt("", i, j);
+				}
+				continue;
+			}
+			tableModel.setValueAt("Yes", i, 1);
+			/*if(entry.operation != Operation.LOAD &&
+					entry.operation != Operation.STORE) {
+				FPUInstruction fpInst = (FPUInstruction)entry;
+				tableModel.setValueAt("F" + fpInst.destination, i, 2);
+				tableModel.setValueAt("F" + fpInst.source1, i, 3);
+				tableModel.setValueAt("F" + fpInst.source2, i, 4);
+			}
+			else {
+				LoadStoreInstruction lsInst = (LoadStoreInstruction)entry;
+				tableModel.setValueAt("F" + lsInst.dataRegister, i, 2);
+				tableModel.setValueAt("" + lsInst.offset, i, 3);
+				tableModel.setValueAt("R" + lsInst.baseRegister, i, 4);
+			}*/
+		}
+	}
+
 	void addLSQueue(int num, boolean busy, int address, float value) {
-		if(busy == true) {
+		/*if(busy == true) {
 			tableModel.setValueAt("Yes", num, 1);
 		}
 		else {
@@ -57,6 +104,6 @@ class LSQueuePanel extends JPanel{
 		}
 		
 		tableModel.setValueAt(String.valueOf(address), num, 2);
-		tableModel.setValueAt(String.valueOf(value), num, 3);
+		tableModel.setValueAt(String.valueOf(value), num, 3);*/
 	}
 }

@@ -8,6 +8,8 @@ import logic.components.FPAddReservationStation;
 import logic.components.FPMulReservationStation;
 import logic.components.FPRegisterFile;
 import logic.components.InstructionMemory;
+import logic.components.InstructionMemory.Instruction;
+import logic.components.InstructionMemory.LoadStoreInstruction;
 import logic.components.LoadBuffer;
 import logic.components.Operation;
 import logic.components.StoreBuffer;
@@ -68,6 +70,31 @@ public class TomasuloCircuit {
 	{
 		for (Component components : components.values()) {
 			components.onClockTick();
+		}
+		Instruction instruction = instructionMemory.getNextInstruction();
+		if(instruction == null)
+		{
+			//TODO: Stop execution
+			return;
+		}
+		switch(instruction.operation)
+		{
+		case ADD:
+		case SUBSTRACT:
+			break;
+		case DIVISION:
+		case MULTIPLICATION:
+			break;
+		case LOAD:
+			if(loadBuffer.addInstruction((LoadStoreInstruction)instruction)) {
+				instructionMemory.reportInstructionRunning(instruction);
+			}
+			break;
+		case STORE:
+			break;
+		default:
+			break;
+		
 		}
 	}
 	
