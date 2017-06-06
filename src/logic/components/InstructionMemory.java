@@ -6,18 +6,35 @@ public class InstructionMemory extends Component {
 	
 	public abstract class Instruction {
 		public Operation operation;
+		Instruction(Operation op) {
+			this.operation = op;
+		}
 	}
 	
-	public class FPUInstruction {
+	public class FPUInstruction extends Instruction {
+		public int destination;
 		public int source1;
 		public int source2;
-		public int destination;
+		public FPUInstruction(Operation op, int destination, int source1, int source2)
+		{
+			super(op);
+			this.destination = destination;
+			this.source1 = source1;
+			this.source2 = source2;
+		}
 	}
 	
-	public class LoadStoreInstruction {
+	public class LoadStoreInstruction extends Instruction {
+		public int dataRegister;
 		public int baseRegister;
 		public int offset;
-		public int dataRegister;
+		public LoadStoreInstruction(Operation op, int dataRegister, int baseRegister, int offset)
+		{
+			super(op);
+			this.dataRegister = dataRegister;
+			this.baseRegister = baseRegister;
+			this.offset = offset;
+		}
 	}
 	
 	protected int size;
