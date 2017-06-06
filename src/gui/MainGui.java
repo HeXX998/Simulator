@@ -17,9 +17,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.Timer;
 import javax.swing.JFileChooser;
 
 import dialog.MemoryDialog;
+import logic.TomasuloCircuit;
 import dialog.FloatDialog;
 import dialog.IntegerDialog;
 import dialog.InstructionDialog;
@@ -32,24 +34,30 @@ public class MainGui {
 	private JToolBar mainToolBar;
 	private JPanel mainPanel;
 	
-	private FloatPanel floatPanel;
-	private InstructionQueuePanel instructionQueuePanel;
-	private IntegerPanel integerPanel;
-	private LSQueuePanel loadQueuePanel;
+	public FloatPanel floatPanel;
+	public InstructionQueuePanel instructionQueuePanel;
+	public IntegerPanel integerPanel;
+	public LSQueuePanel loadQueuePanel;
 	private LSQueuePanel storeQueuePanel;
-	private MemoryPanel memoryPanel;
+	public MemoryPanel memoryPanel;
 	private ParameterPanel parameterPanel;
-	private ReservationStationPanel reservationStationPanel;
+	public ReservationStationPanel reservationStationPanel;
 	private RuntimePanel runtimePanel;
-	
-	private Tomasulo tomasulo;
-	
-	public MainGui (Tomasulo tomasulo){
-		this.tomasulo = tomasulo;
+	protected TomasuloCircuit circuit;
+	protected Timer timer;
+
+	public MainGui (TomasuloCircuit circuit){
+		this.circuit = circuit;
 		mainFrame = new JFrame("Tomasulo Simulator");
 		mainFrame.setSize(1150, 775);
 		mainFrame.setResizable(false);
 		mainFrame.setLayout(new BorderLayout(20, 10));
+		mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        System.exit(0);
+		    }
+		});
 		
 		mainMenuBar = new JMenuBar();
 		mainFrame.setJMenuBar(mainMenuBar);
@@ -170,11 +178,6 @@ public class MainGui {
 	public void close(){
 		mainFrame.setVisible(false);
 	}
-	//Float Register Panel
-	//修改浮点寄存器值，参数为序号、表达式、值，序号从0开始编号(其它类似)
-	public void modifyFloatRegister(int num, String expr, float value) {
-		floatPanel.modifyFloatRegister(num, expr, value);
-	}
 	//Instruction Queue Panel
 	public void addInstruction(String name, String Desti, String Sourcej, String Sourcek) {
 		instructionQueuePanel.addInstruction(name, Desti, Sourcej, Sourcek);
@@ -182,14 +185,6 @@ public class MainGui {
 	//Integer Register Panel
 	public void modifyIntegerRegister(int num, int value) {
 		integerPanel.modifyIntegerRegister(num, value);
-	}
-	//Load Queue Panel
-	public void addLoadQueuePanel(int num, boolean busy, int address, float value) {
-		loadQueuePanel.addLSQueue(num, busy, address, value);
-	}
-	//Store Queue Panel
-	public void addStoreQueuePanel(int num, boolean busy, int address, float value) {
-		storeQueuePanel.addLSQueue(num, busy, address, value);
 	}
 	//Memory Panel
 	public void modifyMemory(int address, float value) {
@@ -199,15 +194,6 @@ public class MainGui {
 	//修改参数面板，参数面板包括clock time，指令条数，PC值三个参数
 	public void setParameter(int clockValue, int instructionValue, int pcValue) {
 		parameterPanel.setParameter(clockValue, instructionValue, pcValue);
-	}
-	//ReservationStationPanel
-	//添加一条保留区信息
-	public void addReservation(int num, int time, boolean busy, String op, float valueJ, float valueK, int queryJ, int queryK) {
-		reservationStationPanel.addReservation(num, time, busy, op, valueJ, valueK, queryJ, queryK);
-	}
-	//移除一条保留区信息
-	public void removeReservation(int num) {
-		reservationStationPanel.removeReservation(num);
 	}
 	//RuntimePanel
 	//添加一条空的指令运行状态，参数为指令名称
@@ -273,28 +259,32 @@ public class MainGui {
 	
 	private class nextListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			//需要后台填写 单步执行代码
-			System.out.println("Next");
+			circuit.tick();
+			MainGui.this.memoryPanel.updateFromLogic();
+			MainGui.this.loadQueuePanel.updateFromLogic();
+			MainGui.this.integerPanel.updateFromLogic();
+			MainGui.this.floatPanel.updateFromLogic();
+			MainGui.this.reservationStationPanel.updateFromLogic();
 		}
 	}
 	
 	private class runListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// 需要后台填写 多步执行代码
-			System.out.println("Run");
+			timer = new Timer(500, new nextListener());
+			timer.start();
 		}
 	}
 	
 	private class stopListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// 需要后台填写 停止执行代码
-			System.out.println("Stop");
+			timer.stop();
+			timer = null;
 		}
 	}
 	
 	private class resetListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			tomasulo.reset();
+			//tomasulo.reset();
 		}
 	}
 	
@@ -327,29 +317,5 @@ public class MainGui {
 	
 	public JFrame getMainFrame() {
 		return mainFrame;
-	}
-	
-	//Example，运行MainGui类观察示例
-	public static void main(String[] args) {
-		MainGui mainGui = new MainGui(new Tomasulo());
-		mainGui.modifyFloatRegister(5, "Expr5", 100.70f );
-		mainGui.modifyIntegerRegister(7, 7);
-		for(int i = 0; i <= 10; i++) {
-			mainGui.addInstruction("LD", "F" + String.valueOf(i), "34", "D2");
-		}
-		mainGui.addLoadQueuePanel(1, true, 1234, 100.70f );
-		mainGui.addStoreQueuePanel(2, true, 1234, 100.90f );
-		for(int i = 0; i <= 10; i++) {
-			mainGui.modifyMemory(4 * i, 0.4f * i);
-		}
-		mainGui.modifyMemory(28, (float) 999.99);
-		mainGui.setParameter(100, 200, 300);
-		mainGui.addReservation(4, 1, true, "ADDU", 1.5f, 2.5f, 3, 4);
-		mainGui.addReservation(3, 1, true, "LD", 4.5f, 5.5f, 1, 2);
-		mainGui.removeReservation(3);
-		for(int i = 0; i <= 10; i++) {
-			mainGui.addRuntime("ADDU" + String.valueOf(i));
-		}
-		mainGui.modifyRuntime(5, "LD", true, "HAHA");
 	}
 }
