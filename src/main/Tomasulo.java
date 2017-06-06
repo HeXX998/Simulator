@@ -21,9 +21,6 @@ public class Tomasulo {
 		MainGui mainGui = new MainGui(circuit);
 		mainGui.modifyFloatRegister(5, "Expr5", 100.70f );
 		mainGui.modifyIntegerRegister(7, 7);
-		for(int i = 0; i <= 10; i++) {
-			mainGui.addInstruction("LD", "F" + String.valueOf(i), "34", "D2");
-		}
 		mainGui.addLoadQueuePanel(1, true, 1234, 100.70f );
 		mainGui.addStoreQueuePanel(2, true, 1234, 100.90f );
 		mainGui.setParameter(100, 200, 300);
@@ -35,6 +32,7 @@ public class Tomasulo {
 		}
 		mainGui.modifyRuntime(5, "LD", true, "HAHA");
 		mainGui.memoryPanel.bindDataMemory((DataMemory)circuit.getComponent("data_memory"));
+		mainGui.instructionQueuePanel.bindInstructionMemory(circuit.instructionMemory);
 	}
 
 }

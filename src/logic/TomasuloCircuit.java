@@ -41,15 +41,15 @@ public class TomasuloCircuit {
 		instructionMemory.setInstruction(
 				0, instructionMemory.new LoadStoreInstruction(Operation.LOAD, 6, 2, 34));
 		instructionMemory.setInstruction(
-				0, instructionMemory.new LoadStoreInstruction(Operation.LOAD, 2, 3, 45));
+				1, instructionMemory.new LoadStoreInstruction(Operation.LOAD, 2, 3, 45));
 		instructionMemory.setInstruction(
-				0, instructionMemory.new FPUInstruction(Operation.MULTIPLICATION, 0, 2, 4));
+				2, instructionMemory.new FPUInstruction(Operation.MULTIPLICATION, 0, 2, 4));
 		instructionMemory.setInstruction(
-				0, instructionMemory.new FPUInstruction(Operation.SUBSTRACT, 8, 6, 2));
+				3, instructionMemory.new FPUInstruction(Operation.SUBSTRACT, 8, 6, 2));
 		instructionMemory.setInstruction(
-				0, instructionMemory.new FPUInstruction(Operation.DIVISION, 10, 0, 6));
+				4, instructionMemory.new FPUInstruction(Operation.DIVISION, 10, 0, 6));
 		instructionMemory.setInstruction(
-				0, instructionMemory.new FPUInstruction(Operation.ADD, 6, 8, 2));
+				5, instructionMemory.new FPUInstruction(Operation.ADD, 6, 8, 2));
 		components = new HashMap<String, Component>();
 		pins = new HashMap<String, Pin>();
 	}

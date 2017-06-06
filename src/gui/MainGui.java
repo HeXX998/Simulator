@@ -35,7 +35,7 @@ public class MainGui {
 	private JPanel mainPanel;
 	
 	private FloatPanel floatPanel;
-	private InstructionQueuePanel instructionQueuePanel;
+	public InstructionQueuePanel instructionQueuePanel;
 	private IntegerPanel integerPanel;
 	private LSQueuePanel loadQueuePanel;
 	private LSQueuePanel storeQueuePanel;
