@@ -186,14 +186,6 @@ public class MainGui {
 	public void modifyIntegerRegister(int num, int value) {
 		integerPanel.modifyIntegerRegister(num, value);
 	}
-	//Load Queue Panel
-	public void addLoadQueuePanel(int num, boolean busy, int address, float value) {
-		loadQueuePanel.addLSQueue(num, busy, address, value);
-	}
-	//Store Queue Panel
-	public void addStoreQueuePanel(int num, boolean busy, int address, float value) {
-		storeQueuePanel.addLSQueue(num, busy, address, value);
-	}
 	//Memory Panel
 	public void modifyMemory(int address, float value) {
 		memoryPanel.modifyMemory(address, value);
@@ -202,15 +194,6 @@ public class MainGui {
 	//修改参数面板，参数面板包括clock time，指令条数，PC值三个参数
 	public void setParameter(int clockValue, int instructionValue, int pcValue) {
 		parameterPanel.setParameter(clockValue, instructionValue, pcValue);
-	}
-	//ReservationStationPanel
-	//添加一条保留区信息
-	public void addReservation(int num, int time, boolean busy, String op, float valueJ, float valueK, int queryJ, int queryK) {
-		reservationStationPanel.addReservation(num, time, busy, op, valueJ, valueK, queryJ, queryK);
-	}
-	//移除一条保留区信息
-	public void removeReservation(int num) {
-		reservationStationPanel.removeReservation(num);
 	}
 	//RuntimePanel
 	//添加一条空的指令运行状态，参数为指令名称

@@ -83,16 +83,4 @@ public class LSQueuePanel extends JPanel{
 			tableModel.setValueAt(entry.offset, i, 3);
 		}
 	}
-
-	void addLSQueue(int num, boolean busy, int address, float value) {
-		/*if(busy == true) {
-			tableModel.setValueAt("Yes", num, 1);
-		}
-		else {
-			tableModel.setValueAt("No", num, 1);
-		}
-		
-		tableModel.setValueAt(String.valueOf(address), num, 2);
-		tableModel.setValueAt(String.valueOf(value), num, 3);*/
-	}
 }
