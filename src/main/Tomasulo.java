@@ -32,6 +32,8 @@ public class Tomasulo {
 		mainGui.loadQueuePanel.bindLoadBuffer(circuit.loadBuffer);
 		mainGui.integerPanel.bindRegularRegisterFile(circuit.regularRegisterFile);
 		mainGui.floatPanel.bindFPRegisterFile(circuit.fpRegisterFile);
+		mainGui.reservationStationPanel.bindReservationStation(
+				circuit.addReservationStation, circuit.mulReservationStation);
 	}
 
 }

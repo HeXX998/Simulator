@@ -8,6 +8,11 @@ public abstract class ReservationStation extends Component {
 			this.rs = rs;
 			this.index = index;
 		}
+		
+		@Override
+		public String toString() {
+			return rs.getName() + "[" + index + "]";
+		}
 	}
 	public abstract class EntryData {
 		

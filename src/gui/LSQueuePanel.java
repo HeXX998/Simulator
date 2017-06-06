@@ -39,7 +39,7 @@ public class LSQueuePanel extends JPanel{
 		label = new JLabel(a + " Queue", SwingConstants.CENTER);
 		label.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
 		
-		String[] colName = {"", "Busy", "Address", "Cache"};
+		String[] colName = {"", "Busy", "BaseAddress", "Offset"};
 		tableModel = new DefaultTableModel(null, colName);
 		table = new JTable(tableModel);
 		table.setRowHeight(25);
@@ -79,19 +79,8 @@ public class LSQueuePanel extends JPanel{
 				continue;
 			}
 			tableModel.setValueAt("Yes", i, 1);
-			/*if(entry.operation != Operation.LOAD &&
-					entry.operation != Operation.STORE) {
-				FPUInstruction fpInst = (FPUInstruction)entry;
-				tableModel.setValueAt("F" + fpInst.destination, i, 2);
-				tableModel.setValueAt("F" + fpInst.source1, i, 3);
-				tableModel.setValueAt("F" + fpInst.source2, i, 4);
-			}
-			else {
-				LoadStoreInstruction lsInst = (LoadStoreInstruction)entry;
-				tableModel.setValueAt("F" + lsInst.dataRegister, i, 2);
-				tableModel.setValueAt("" + lsInst.offset, i, 3);
-				tableModel.setValueAt("R" + lsInst.baseRegister, i, 4);
-			}*/
+			tableModel.setValueAt(entry.baseAddress, i, 2);
+			tableModel.setValueAt(entry.offset, i, 3);
 		}
 	}
 

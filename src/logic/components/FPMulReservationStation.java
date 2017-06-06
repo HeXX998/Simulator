@@ -4,22 +4,38 @@ import logic.RenamedValue;
 import logic.ReservationStation;
 import logic.TomasuloCircuit;
 import logic.components.FPAddReservationStation.EntryData;
+import logic.components.InstructionMemory.FPUInstruction;
 
 public class FPMulReservationStation extends ReservationStation {
 	public class EntryData extends ReservationStation.Entry {
-		public EntryData(ReservationStation rs, int index) {
+		public EntryData(ReservationStation rs, int index, Operation op) {
 			super(rs, index);
-			// TODO Auto-generated constructor stub
+			this.operation = op;
 		}
-		Operation operation;
-		RenamedValue value1;
-		RenamedValue value2;
+		public Operation operation;
+		public RenamedValue value1;
+		public RenamedValue value2;
 	}
-	protected EntryData[] entries;
+	public EntryData[] entries;
 	public FPMulReservationStation(TomasuloCircuit circuit, int size)
 	{
 		super(circuit, size);
 		entries = new EntryData[size];
+	}
+	
+	public boolean addInstruction(FPUInstruction inst) {
+		for(int i = 0; i < size; i++)
+		{
+			if(entries[i] == null) {
+				EntryData entryData = new EntryData(this, i, inst.operation);
+				entryData.value1 = new RenamedValue(circuit.fpRegisterFile, inst.source1);
+				entryData.value2 = new RenamedValue(circuit.fpRegisterFile, inst.source2);
+				entries[i] = entryData;
+				circuit.fpRegisterFile.bindUpdatedValue(inst.destination, entryData);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

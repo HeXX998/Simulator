@@ -3,22 +3,40 @@ package logic.components;
 import logic.RenamedValue;
 import logic.ReservationStation;
 import logic.TomasuloCircuit;
+import logic.components.InstructionMemory.FPUInstruction;
+import logic.components.InstructionMemory.LoadStoreInstruction;
+import logic.components.LoadBuffer.EntryData;
 
 public class FPAddReservationStation extends ReservationStation {
 	public class EntryData extends ReservationStation.Entry {
-		public EntryData(ReservationStation rs, int index) {
+		public EntryData(ReservationStation rs, int index, Operation op) {
 			super(rs, index);
-			// TODO Auto-generated constructor stub
+			this.operation = op;
 		}
-		Operation operation;
-		RenamedValue value1;
-		RenamedValue value2;
+		public Operation operation;
+		public RenamedValue value1;
+		public RenamedValue value2;
 	}
-	protected EntryData[] entries;
+	public EntryData[] entries;
 	public FPAddReservationStation(TomasuloCircuit circuit, int size)
 	{
 		super(circuit, size);
 		entries = new EntryData[size];
+	}
+	
+	public boolean addInstruction(FPUInstruction inst) {
+		for(int i = 0; i < size; i++)
+		{
+			if(entries[i] == null) {
+				EntryData entryData = new EntryData(this, i, inst.operation);
+				entryData.value1 = new RenamedValue(circuit.fpRegisterFile, inst.source1);
+				entryData.value2 = new RenamedValue(circuit.fpRegisterFile, inst.source2);
+				entries[i] = entryData;
+				circuit.fpRegisterFile.bindUpdatedValue(inst.destination, entryData);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override
@@ -26,6 +44,7 @@ public class FPAddReservationStation extends ReservationStation {
 		// TODO Auto-generated method stub
 		
 	}
+
 	@Override
 	public void onBroadcast(int register, float data) {
 		// TODO Auto-generated method stub

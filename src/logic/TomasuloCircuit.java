@@ -8,6 +8,7 @@ import logic.components.FPAddReservationStation;
 import logic.components.FPMulReservationStation;
 import logic.components.FPRegisterFile;
 import logic.components.InstructionMemory;
+import logic.components.InstructionMemory.FPUInstruction;
 import logic.components.InstructionMemory.Instruction;
 import logic.components.InstructionMemory.LoadStoreInstruction;
 import logic.components.LoadBuffer;
@@ -88,9 +89,15 @@ public class TomasuloCircuit {
 		{
 		case ADD:
 		case SUBSTRACT:
+			if(addReservationStation.addInstruction((FPUInstruction)instruction)) {
+				instructionMemory.reportInstructionRunning(instruction);
+			}
 			break;
 		case DIVISION:
 		case MULTIPLICATION:
+			if(mulReservationStation.addInstruction((FPUInstruction)instruction)) {
+				instructionMemory.reportInstructionRunning(instruction);
+			}
 			break;
 		case LOAD:
 			if(loadBuffer.addInstruction((LoadStoreInstruction)instruction)) {

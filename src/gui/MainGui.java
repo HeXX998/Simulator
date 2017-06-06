@@ -41,7 +41,7 @@ public class MainGui {
 	private LSQueuePanel storeQueuePanel;
 	public MemoryPanel memoryPanel;
 	private ParameterPanel parameterPanel;
-	private ReservationStationPanel reservationStationPanel;
+	public ReservationStationPanel reservationStationPanel;
 	private RuntimePanel runtimePanel;
 	protected TomasuloCircuit circuit;
 	protected Timer timer;
@@ -281,6 +281,7 @@ public class MainGui {
 			MainGui.this.loadQueuePanel.updateFromLogic();
 			MainGui.this.integerPanel.updateFromLogic();
 			MainGui.this.floatPanel.updateFromLogic();
+			MainGui.this.reservationStationPanel.updateFromLogic();
 		}
 	}
 	
