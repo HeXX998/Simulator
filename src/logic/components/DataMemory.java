@@ -1,5 +1,6 @@
 package logic.components;
 import logic.Component;
+import logic.ReservationStation;
 import logic.TomasuloCircuit;
 
 public class DataMemory extends Component {
@@ -29,12 +30,11 @@ public class DataMemory extends Component {
 
 	@Override
 	public void onClockTick() {
-		data[0] += 0.1;
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void onBroadcast(int register, float data) {
+	public void onBroadcast(ReservationStation.Entry entry, float data) {
 		// TODO Auto-generated method stub
 		
 	}

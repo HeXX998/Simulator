@@ -1,12 +1,14 @@
 package logic.components;
 
 import logic.Component;
+import logic.ReservationStation;
 import logic.TomasuloCircuit;
 
 public class InstructionMemory extends Component {
 	
 	public enum ExecStatus {
 		WAITING,
+		QUEUED,
 		RUNNING,
 		DONE,
 	}
@@ -59,8 +61,8 @@ public class InstructionMemory extends Component {
 		return null;
 	}
 	
-	public void reportInstructionRunning(Instruction instruction) {
-		instruction.execStatus = ExecStatus.RUNNING;
+	public void reportStatus(Instruction instruction, ExecStatus execStatus) {
+		instruction.execStatus = execStatus;
 	}
 	
 	public InstructionMemory(TomasuloCircuit circuit, int size)
@@ -100,7 +102,7 @@ public class InstructionMemory extends Component {
 		
 	}
 	@Override
-	public void onBroadcast(int register, float data) {
+	public void onBroadcast(ReservationStation.Entry entry, float data) {
 		// TODO Auto-generated method stub
 		
 	}

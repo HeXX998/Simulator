@@ -8,7 +8,7 @@ public abstract class Component {
 	protected HashMap<String, TomasuloCircuit.Pin> pinBindings;
 
 	abstract public void onClockTick();
-	abstract public void onBroadcast(int register, float data);
+	abstract public void onBroadcast(ReservationStation.Entry entry, float data);
 	
 	protected TomasuloCircuit circuit;
 	

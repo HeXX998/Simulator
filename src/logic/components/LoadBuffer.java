@@ -4,18 +4,26 @@ import logic.RenamedValue;
 import logic.ReservationStation;
 import logic.TomasuloCircuit;
 import logic.components.FPAddReservationStation.EntryData;
+import logic.components.InstructionMemory.ExecStatus;
+import logic.components.InstructionMemory.Instruction;
 import logic.components.InstructionMemory.LoadStoreInstruction;
 
 public class LoadBuffer extends ReservationStation { 
 
 	public class EntryData extends ReservationStation.Entry {
-		public EntryData(ReservationStation rs, int index, int baseAddress, int offset) {
-			super(rs, index);
+		public EntryData(Instruction instruction, ReservationStation rs, int index, int baseAddress, int offset) {
+			super(instruction, rs, index);
 			this.baseAddress = baseAddress;
 			this.offset = offset;
 		}
 		public int baseAddress; //Note: We assume regular registers will never be change...
 		public int offset;
+		public int clockRemaining = 3;
+		
+		@Override
+		public boolean readyToExecute() {
+			return true;
+		}
 	}
 	
 	public EntryData[] entries;
@@ -30,7 +38,7 @@ public class LoadBuffer extends ReservationStation {
 		{
 			if(entries[i] == null) {
 				EntryData entryData = new EntryData(
-					this, i, 
+					inst, this, i, 
 					circuit.regularRegisterFile.getData(inst.baseRegister),
 					inst.offset);
 				entries[i] = entryData;
@@ -43,14 +51,40 @@ public class LoadBuffer extends ReservationStation {
 	
 	@Override
 	public void onClockTick() {
-		// TODO Auto-generated method stub
-		
+		for(int i = 0; i < entries.length; i++)
+		{
+			if(entries[i] == null) {
+				continue;
+			}
+			if(entries[i].instruction.execStatus == ExecStatus.RUNNING)
+			{
+				entries[i].clockRemaining--;
+				if(entries[i].clockRemaining == 0)
+				{
+					circuit.sendBroadcast(entries[i],
+							circuit.dataMemory.getData(entries[i].baseAddress + entries[i].offset));
+				}
+			}
+			else if(entries[i].instruction.execStatus == ExecStatus.QUEUED &&
+					entries[i].readyToExecute())
+			{
+				entries[i].instruction.execStatus = ExecStatus.RUNNING;
+			}
+		}
 	}
 	
 	@Override
-	public void onBroadcast(int register, float data) {
-		// TODO Auto-generated method stub
-		
+	public void onBroadcast(ReservationStation.Entry entry, float data) {
+		for(int i = 0; i < entries.length; i++)
+		{
+			if(entries[i] == null) {
+				continue;
+			}
+			if(entries[i] == entry) {
+				entries[i] = null;
+				continue;
+			}
+		}
 	}
 
 	@Override

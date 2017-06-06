@@ -82,11 +82,11 @@ public class ReservationStationPanel extends JPanel{
 			tableModel.setRowCount(totalSize);
 			for(int i = 0; i < addRsSize; i++)
 			{
-				tableModel.setValueAt("RsAdd" + (i + 1), i, 1);
+				tableModel.setValueAt("RsAdd" + i, i, 1);
 			}
 			for(int i = 0; i < mulRsSize; i++)
 			{
-				tableModel.setValueAt("RsMul" + (i + 1), i + addRsSize, 1);
+				tableModel.setValueAt("RsMul" + i, i + addRsSize, 1);
 			}
 		}
 		for(int i = 0; i < addRsSize; i++)

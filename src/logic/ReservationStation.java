@@ -1,21 +1,24 @@
 package logic;
 
+import logic.components.InstructionMemory.Instruction;
+
 public abstract class ReservationStation extends Component {
-	public class Entry {
+	public abstract class Entry {
+		public Instruction instruction;
 		public ReservationStation rs;
 		public int index;
-		public Entry(ReservationStation rs, int index) {
+		public Entry(Instruction instruction, ReservationStation rs, int index) {
+			this.instruction = instruction;
 			this.rs = rs;
 			this.index = index;
 		}
+		
+		public abstract boolean readyToExecute();
 		
 		@Override
 		public String toString() {
 			return rs.getName() + "[" + index + "]";
 		}
-	}
-	public abstract class EntryData {
-		
 	}
 	
 	public abstract String getName();

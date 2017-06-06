@@ -45,9 +45,17 @@ public class TomasuloCircuit {
 		instructionMemory = new InstructionMemory(this, 64);
 		fpRegisterFile = new FPRegisterFile(this, 16);
 		regularRegisterFile = new RegularRegisterFile(this, 16);
-		for(int i = 0; i <regularRegisterFile.getSize(); i++){
+
+		for(int i = 0; i < regularRegisterFile.getSize(); i++){
 			regularRegisterFile.setData(i, i);
 		}
+		for(int i = 0; i < dataMemory.getSize(); i++){
+			dataMemory.setData(i, i * 0.1f + 0.1f);
+		}
+		for(int i = 0; i < fpRegisterFile.getSize(); i++){
+			fpRegisterFile.setData(i, i * 0.1f + 0.1f);
+		}
+
 		instructionMemory.setInstruction(
 				0, instructionMemory.new LoadStoreInstruction(Operation.LOAD, 6, 2, 34));
 		instructionMemory.setInstruction(
@@ -82,34 +90,49 @@ public class TomasuloCircuit {
 		Instruction instruction = instructionMemory.getNextInstruction();
 		if(instruction == null)
 		{
-			//TODO: Stop execution
-			return;
+			//TODO: Stop execution when all instructions are done
 		}
-		switch(instruction.operation)
+		else
 		{
-		case ADD:
-		case SUBSTRACT:
-			if(addReservationStation.addInstruction((FPUInstruction)instruction)) {
-				instructionMemory.reportInstructionRunning(instruction);
+			switch(instruction.operation)
+			{
+			case ADD:
+			case SUBSTRACT:
+				if(addReservationStation.addInstruction((FPUInstruction)instruction)) {
+					instructionMemory.reportStatus(instruction, InstructionMemory.ExecStatus.QUEUED);
+				}
+				break;
+			case DIVISION:
+			case MULTIPLICATION:
+				if(mulReservationStation.addInstruction((FPUInstruction)instruction)) {
+					instructionMemory.reportStatus(instruction, InstructionMemory.ExecStatus.QUEUED);
+				}
+				break;
+			case LOAD:
+				if(loadBuffer.addInstruction((LoadStoreInstruction)instruction)) {
+					instructionMemory.reportStatus(instruction, InstructionMemory.ExecStatus.QUEUED);
+				}
+				break;
+			case STORE:
+				break;
+			default:
+				break;
 			}
-			break;
-		case DIVISION:
-		case MULTIPLICATION:
-			if(mulReservationStation.addInstruction((FPUInstruction)instruction)) {
-				instructionMemory.reportInstructionRunning(instruction);
-			}
-			break;
-		case LOAD:
-			if(loadBuffer.addInstruction((LoadStoreInstruction)instruction)) {
-				instructionMemory.reportInstructionRunning(instruction);
-			}
-			break;
-		case STORE:
-			break;
-		default:
-			break;
-		
 		}
+
+		loadBuffer.onClockTick();
+		storeBuffer.onClockTick();
+		addReservationStation.onClockTick();
+		mulReservationStation.onClockTick();
+	}
+	
+	public void sendBroadcast(ReservationStation.Entry entry, float result)
+	{
+		loadBuffer.onBroadcast(entry, result);
+		storeBuffer.onBroadcast(entry, result);
+		addReservationStation.onBroadcast(entry, result);
+		mulReservationStation.onBroadcast(entry, result);
+		fpRegisterFile.onBroadcast(entry, result);
 	}
 	
 	public void addPin(String pinName)

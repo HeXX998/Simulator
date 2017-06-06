@@ -49,9 +49,19 @@ public class FPRegisterFile extends Component {
 	}
 
 	@Override
-	public void onBroadcast(int register, float data) {
+	public void onBroadcast(ReservationStation.Entry entry, float data) {
 		// TODO Auto-generated method stub
-		
+		for(int i = 0; i < size; i++)
+		{
+			if(updatedValue[i] == null) {
+				continue;
+			}
+			if(updatedValue[i] == entry)
+			{
+				this.data[i] = data;
+				updatedValue[i] = null;
+			}
+		}
 	}
 
 }

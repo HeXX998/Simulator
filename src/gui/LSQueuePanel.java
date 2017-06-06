@@ -63,7 +63,7 @@ public class LSQueuePanel extends JPanel{
 			tableModel.setRowCount(loadQueueSize);
 			for(int i = 0; i < loadQueueSize; i++)
 			{
-				tableModel.setValueAt("LOAD" + (i + 1), i, 0);
+				tableModel.setValueAt("LOAD" + i, i, 0);
 				label.setText("Load Queue (" + loadQueueSize + " LD instructions)");
 			}
 		}

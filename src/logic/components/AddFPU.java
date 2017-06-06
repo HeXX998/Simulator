@@ -1,6 +1,7 @@
 package logic.components;
 
 import logic.Component;
+import logic.ReservationStation;
 import logic.TomasuloCircuit;
 
 public class AddFPU extends Component {
@@ -17,7 +18,7 @@ public class AddFPU extends Component {
 	}
 
 	@Override
-	public void onBroadcast(int register, float data) {
+	public void onBroadcast(ReservationStation.Entry entry, float data) {
 		// TODO Auto-generated method stub
 		
 	}
