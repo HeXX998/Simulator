@@ -36,7 +36,7 @@ public class MainGui {
 	
 	private FloatPanel floatPanel;
 	public InstructionQueuePanel instructionQueuePanel;
-	private IntegerPanel integerPanel;
+	public IntegerPanel integerPanel;
 	public LSQueuePanel loadQueuePanel;
 	private LSQueuePanel storeQueuePanel;
 	public MemoryPanel memoryPanel;

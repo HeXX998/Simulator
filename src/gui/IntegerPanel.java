@@ -13,13 +13,18 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import logic.components.LoadBuffer;
+import logic.components.RegularRegisterFile;
+
 public class IntegerPanel extends JPanel {
 	private JLabel label;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	
+	protected RegularRegisterFile regularRegisterFile;
+	
 	IntegerPanel() {
-		JLabel label = new JLabel("ÕûÐÎ¼Ä´æÆ÷RU", SwingConstants.CENTER);
+		label = new JLabel("ÕûÐÎ¼Ä´æÆ÷RU", SwingConstants.CENTER);
         label.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
         
         JLabel label1 = new JLabel("¼Ä´æÆ÷ºÅ");
@@ -55,6 +60,30 @@ public class IntegerPanel extends JPanel {
         add(label);
         add(tablePanel);
 	}
+	
+	public void bindRegularRegisterFile(RegularRegisterFile regularRegisterFile)
+	{
+		this.regularRegisterFile = regularRegisterFile;
+		updateFromLogic();
+	}
+	
+	public void updateFromLogic() {
+		int size = regularRegisterFile.getSize();
+		if(size != tableModel.getColumnCount()) {
+			label.setText("Regular registers (0 - " + (size - 1) + ")");
+			tableModel.setColumnCount(size);
+			String[] identifiers = new String[size];
+			for(int i = 0; i < size; i++) {
+				identifiers[i] = "R" + i;
+			}
+			tableModel.setColumnIdentifiers(identifiers);
+		}
+		for(int i = 0; i < size; i++)
+		{
+			tableModel.setValueAt(regularRegisterFile.getData(i), 0, i);
+		}
+	}
+	
 	
 	void modifyIntegerRegister(int num, int value) {
 		tableModel.setValueAt(String.valueOf(value), 0, num);

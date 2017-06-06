@@ -12,6 +12,7 @@ import logic.components.InstructionMemory.Instruction;
 import logic.components.InstructionMemory.LoadStoreInstruction;
 import logic.components.LoadBuffer;
 import logic.components.Operation;
+import logic.components.RegularRegisterFile;
 import logic.components.StoreBuffer;
 
 public class TomasuloCircuit {
@@ -30,6 +31,7 @@ public class TomasuloCircuit {
 	public DataMemory dataMemory;
 	public InstructionMemory instructionMemory;
 	public FPRegisterFile fpRegisterFile;
+	public RegularRegisterFile regularRegisterFile;
 
 	public TomasuloCircuit()
 	{
@@ -40,6 +42,10 @@ public class TomasuloCircuit {
 		dataMemory = new DataMemory(256);
 		instructionMemory = new InstructionMemory(64);
 		fpRegisterFile = new FPRegisterFile(16);
+		regularRegisterFile = new RegularRegisterFile(16);
+		for(int i = 0; i <regularRegisterFile.getSize(); i++){
+			regularRegisterFile.setData(i, i);
+		}
 		instructionMemory.setInstruction(
 				0, instructionMemory.new LoadStoreInstruction(Operation.LOAD, 6, 2, 34));
 		instructionMemory.setInstruction(

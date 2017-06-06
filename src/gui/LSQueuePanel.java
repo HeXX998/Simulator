@@ -57,7 +57,7 @@ public class LSQueuePanel extends JPanel{
 		updateFromLogic();
 	}
 	
-	void updateFromLogic() {
+	public void updateFromLogic() {
 		int loadQueueSize = loadBuffer.getSize();
 		if(loadQueueSize != tableModel.getRowCount()) {
 			tableModel.setRowCount(loadQueueSize);

@@ -33,6 +33,7 @@ public class Tomasulo {
 		mainGui.memoryPanel.bindDataMemory((DataMemory)circuit.getComponent("data_memory"));
 		mainGui.instructionQueuePanel.bindInstructionMemory(circuit.instructionMemory);
 		mainGui.loadQueuePanel.bindLoadBuffer(circuit.loadBuffer);
+		mainGui.integerPanel.bindRegularRegisterFile(circuit.regularRegisterFile);
 	}
 
 }
