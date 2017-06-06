@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,8 +40,8 @@ public class IntegerPanel extends JPanel {
         table = new JTable(tableModel);
         table.setRowHeight(25);
         JScrollPane scroller = new JScrollPane(table);
-        scroller.setPreferredSize(new Dimension(900, 50));
-        
+        scroller.setPreferredSize(new Dimension(900, 50 + 1));
+
         JPanel labelPanel = new JPanel();
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         labelPanel.add(label1);

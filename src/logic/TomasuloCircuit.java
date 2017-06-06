@@ -35,14 +35,15 @@ public class TomasuloCircuit {
 
 	public TomasuloCircuit()
 	{
-		loadBuffer = new LoadBuffer(3);
-		storeBuffer = new StoreBuffer(3);
-		addReservationStation = new FPAddReservationStation(3);
-		mulReservationStation = new FPMulReservationStation(2);
-		dataMemory = new DataMemory(256);
-		instructionMemory = new InstructionMemory(64);
-		fpRegisterFile = new FPRegisterFile(16);
-		regularRegisterFile = new RegularRegisterFile(16);
+		dataMemory = new DataMemory(this, 256);
+		loadBuffer = new LoadBuffer(this, 3);
+		storeBuffer = new StoreBuffer(this, 3);
+		addReservationStation = new FPAddReservationStation(this, 3);
+		mulReservationStation = new FPMulReservationStation(this, 2);
+		dataMemory = new DataMemory(this, 256);
+		instructionMemory = new InstructionMemory(this, 64);
+		fpRegisterFile = new FPRegisterFile(this, 16);
+		regularRegisterFile = new RegularRegisterFile(this, 16);
 		for(int i = 0; i <regularRegisterFile.getSize(); i++){
 			regularRegisterFile.setData(i, i);
 		}

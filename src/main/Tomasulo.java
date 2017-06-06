@@ -10,8 +10,6 @@ public class Tomasulo {
 	public static TomasuloCircuit buildCircuit()
 	{
 		TomasuloCircuit circuit = new TomasuloCircuit();
-		DataMemory dataMemory = new DataMemory(256);
-		circuit.addComponent("data_memory", dataMemory);
 		return circuit;
 	}
 	
@@ -19,7 +17,6 @@ public class Tomasulo {
 	public static void main(String[] args) {
 		TomasuloCircuit circuit = buildCircuit();
 		MainGui mainGui = new MainGui(circuit);
-		mainGui.modifyFloatRegister(5, "Expr5", 100.70f );
 		mainGui.modifyIntegerRegister(7, 7);
 		mainGui.addLoadQueuePanel(1, true, 1234, 100.70f );
 		mainGui.addStoreQueuePanel(2, true, 1234, 100.90f );
@@ -30,10 +27,11 @@ public class Tomasulo {
 		for(int i = 0; i <= 10; i++) {
 			mainGui.addRuntime("ADDU" + String.valueOf(i));
 		}
-		mainGui.memoryPanel.bindDataMemory((DataMemory)circuit.getComponent("data_memory"));
+		mainGui.memoryPanel.bindDataMemory(circuit.dataMemory);
 		mainGui.instructionQueuePanel.bindInstructionMemory(circuit.instructionMemory);
 		mainGui.loadQueuePanel.bindLoadBuffer(circuit.loadBuffer);
 		mainGui.integerPanel.bindRegularRegisterFile(circuit.regularRegisterFile);
+		mainGui.floatPanel.bindFPRegisterFile(circuit.fpRegisterFile);
 	}
 
 }

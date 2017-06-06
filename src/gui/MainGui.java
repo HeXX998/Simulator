@@ -34,7 +34,7 @@ public class MainGui {
 	private JToolBar mainToolBar;
 	private JPanel mainPanel;
 	
-	private FloatPanel floatPanel;
+	public FloatPanel floatPanel;
 	public InstructionQueuePanel instructionQueuePanel;
 	public IntegerPanel integerPanel;
 	public LSQueuePanel loadQueuePanel;
@@ -178,11 +178,6 @@ public class MainGui {
 	public void close(){
 		mainFrame.setVisible(false);
 	}
-	//Float Register Panel
-	//修改浮点寄存器值，参数为序号、表达式、值，序号从0开始编号(其它类似)
-	public void modifyFloatRegister(int num, String expr, float value) {
-		floatPanel.modifyFloatRegister(num, expr, value);
-	}
 	//Instruction Queue Panel
 	public void addInstruction(String name, String Desti, String Sourcej, String Sourcek) {
 		instructionQueuePanel.addInstruction(name, Desti, Sourcej, Sourcek);
@@ -284,6 +279,8 @@ public class MainGui {
 			circuit.tick();
 			MainGui.this.memoryPanel.updateFromLogic();
 			MainGui.this.loadQueuePanel.updateFromLogic();
+			MainGui.this.integerPanel.updateFromLogic();
+			MainGui.this.floatPanel.updateFromLogic();
 		}
 	}
 	

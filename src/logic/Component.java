@@ -10,6 +10,12 @@ public abstract class Component {
 	abstract public void onClockTick();
 	abstract public void onBroadcast(int register, float data);
 	
+	protected TomasuloCircuit circuit;
+	
+	public Component(TomasuloCircuit circuit) {
+		this.circuit = circuit;
+	}
+	
 	public void getInputPinValue() {
 		
 	}

@@ -2,31 +2,39 @@ package logic.components;
 
 import logic.RenamedValue;
 import logic.ReservationStation;
+import logic.TomasuloCircuit;
 import logic.components.FPAddReservationStation.EntryData;
 import logic.components.InstructionMemory.LoadStoreInstruction;
 
 public class LoadBuffer extends ReservationStation { 
 
 	public class EntryData extends ReservationStation.Entry {
-		int baseAddress; //Note: We assume regular registers will never be change...
-		int offset;
+		public EntryData(ReservationStation rs, int index, int baseAddress, int offset) {
+			super(rs, index);
+			this.baseAddress = baseAddress;
+			this.offset = offset;
+		}
+		public int baseAddress; //Note: We assume regular registers will never be change...
+		public int offset;
 	}
 	
 	public EntryData[] entries;
-	public LoadBuffer(int size)
+	public LoadBuffer(TomasuloCircuit circuit, int size)
 	{
-		super(size);
+		super(circuit, size);
 		entries = new EntryData[size];
 	}
 	
 	public boolean addInstruction(LoadStoreInstruction inst) {
-		EntryData entryData = new EntryData();
-		entryData.baseAddress = inst.dataRegister; // TODO: From Regular registers
-		entryData.offset = inst.offset;		
 		for(int i = 0; i < size; i++)
 		{
 			if(entries[i] == null) {
+				EntryData entryData = new EntryData(
+					this, i, 
+					circuit.regularRegisterFile.getData(inst.baseRegister),
+					inst.offset);
 				entries[i] = entryData;
+				circuit.fpRegisterFile.bindUpdatedValue(inst.dataRegister, entryData);
 				return true;
 			}
 		}
@@ -44,4 +52,10 @@ public class LoadBuffer extends ReservationStation {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String getName() {
+		return "Load";
+	}
+
 }

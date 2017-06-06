@@ -1,6 +1,7 @@
 package logic.components;
 
 import logic.Component;
+import logic.TomasuloCircuit;
 
 public class InstructionMemory extends Component {
 	
@@ -62,8 +63,9 @@ public class InstructionMemory extends Component {
 		instruction.execStatus = ExecStatus.RUNNING;
 	}
 	
-	public InstructionMemory(int size)
+	public InstructionMemory(TomasuloCircuit circuit, int size)
 	{
+		super(circuit);
 		this.size = size;
 		this.instructions = new Instruction[size];
 	}

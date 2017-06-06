@@ -1,8 +1,14 @@
 package logic.components;
 
 import logic.Component;
+import logic.TomasuloCircuit;
 
 public class AddFPU extends Component {
+
+	public AddFPU(TomasuloCircuit circuit) {
+		super(circuit);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void onClockTick() {

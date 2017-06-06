@@ -2,14 +2,16 @@ package logic.components;
 
 import logic.Component;
 import logic.RenamedValue;
+import logic.TomasuloCircuit;
 
 public class RegularRegisterFile extends Component {
 	
 	protected int size;
 	protected int[] data;
 
-	public RegularRegisterFile(int size)
+	public RegularRegisterFile(TomasuloCircuit circuit, int size)
 	{
+		super(circuit);
 		this.size = size;
 		this.data = new int[size];
 	}

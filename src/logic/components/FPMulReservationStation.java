@@ -2,18 +2,23 @@ package logic.components;
 
 import logic.RenamedValue;
 import logic.ReservationStation;
+import logic.TomasuloCircuit;
 import logic.components.FPAddReservationStation.EntryData;
 
 public class FPMulReservationStation extends ReservationStation {
 	public class EntryData extends ReservationStation.Entry {
+		public EntryData(ReservationStation rs, int index) {
+			super(rs, index);
+			// TODO Auto-generated constructor stub
+		}
 		Operation operation;
 		RenamedValue value1;
 		RenamedValue value2;
 	}
 	protected EntryData[] entries;
-	public FPMulReservationStation(int size)
+	public FPMulReservationStation(TomasuloCircuit circuit, int size)
 	{
-		super(size);
+		super(circuit, size);
 		entries = new EntryData[size];
 	}
 	
@@ -27,4 +32,10 @@ public class FPMulReservationStation extends ReservationStation {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public String getName() {
+		return "RS.Mul";
+	}
+
 }

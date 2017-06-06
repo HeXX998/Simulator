@@ -1,12 +1,14 @@
 package logic.components;
 import logic.Component;
+import logic.TomasuloCircuit;
 
 public class DataMemory extends Component {
 	protected int size;
 	protected float[] data;
 
-	public DataMemory(int size)
+	public DataMemory(TomasuloCircuit circuit, int size)
 	{
+		super(circuit);
 		this.size = size;
 		this.data = new float[size];
 	}

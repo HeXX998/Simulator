@@ -10,16 +10,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import logic.ReservationStation.Entry;
+import logic.components.FPRegisterFile;
+import logic.components.RegularRegisterFile;
 
 public class FloatPanel extends JPanel {
 	private JLabel label;
 	private JTable table;
 	private DefaultTableModel tableModel;
+	public FPRegisterFile fpRegisterFile;
 	
 	FloatPanel() {
-		JLabel label = new JLabel("¸¡µã¼Ä´æÆ÷FU", SwingConstants.CENTER);
+		label = new JLabel("¸¡µã¼Ä´æÆ÷FU", SwingConstants.CENTER);
         label.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
         
         JLabel label1 = new JLabel("¼Ä´æÆ÷ºÅ");
@@ -27,17 +33,14 @@ public class FloatPanel extends JPanel {
         JLabel label3 = new JLabel("Êý¾Ý");
         
         String[] colName = {"F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"};
-        String[][] rowData = {
-        		{"", "", "", "", "", "", "", "", "", "", ""},
-        		{"", "", "", "", "", "", "", "", "", "", ""},
-        };
-        
-        tableModel = new DefaultTableModel(rowData, colName);
+
+        tableModel = new DefaultTableModel(null, colName);
+        tableModel.setRowCount(2);
         table = new JTable(tableModel);
         table.setRowHeight(25);
         JScrollPane scroller = new JScrollPane(table);
-        scroller.setPreferredSize(new Dimension(900, 75));
-        
+        scroller.setPreferredSize(new Dimension(900, 75 + 1));
+
         JPanel labelPanel = new JPanel();
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         labelPanel.add(label1);
@@ -60,8 +63,36 @@ public class FloatPanel extends JPanel {
         add(tablePanel);
 	}
 	
-	void modifyFloatRegister(int num, String expr, float value){
-		tableModel.setValueAt(expr, 0, num);
-		tableModel.setValueAt(String.valueOf(value), 1, num);
+	public void bindFPRegisterFile(FPRegisterFile fpRegisterFile)
+	{
+		this.fpRegisterFile = fpRegisterFile;
+		updateFromLogic();
+	}
+	
+	public void updateFromLogic() {
+		int size = fpRegisterFile.getSize();
+		if(size != tableModel.getColumnCount()) {
+			label.setText("Float registers (0 - " + (size - 1) + ")");
+			tableModel.setColumnCount(size);
+			String[] identifiers = new String[size];
+			for(int i = 0; i < size; i++) {
+				identifiers[i] = "F" + i;
+			}
+			tableModel.setColumnIdentifiers(identifiers);
+		}
+		for(int i = 0; i < size; i++)
+		{
+			tableModel.setValueAt(fpRegisterFile.getData(i), 1, i);
+			if(fpRegisterFile.getUpdatedValue(i) != null)
+			{
+				Entry updatedValue = fpRegisterFile.getUpdatedValue(i);
+				tableModel.setValueAt(
+						updatedValue.rs.getName() + "[" + updatedValue.index + "]", 0, i);
+			}
+			else
+			{
+				tableModel.setValueAt("", 0, i);
+			}
+		}
 	}
 }
